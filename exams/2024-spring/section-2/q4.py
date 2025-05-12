@@ -11,7 +11,7 @@ image_data = []
 for img_name in image_list:
     with Image.open(img_name) as img:
         img = img.convert('RGB')  # Keep color
-        img = img.resize((64, 64))  # Resize for uniformity
+        img = img.resize((200, 200))  # Resize for uniformity
         img_array = np.array(img).astype(np.float32)  # (64, 64, 3)
         img_flat = img_array.flatten()  # (64*64*3,)
         image_data.append(img_flat)
@@ -25,7 +25,7 @@ X_pca = pca.fit_transform(X)
 # Load and process the ideal flower image
 with Image.open("idealflower.jpg") as img:
     img = img.convert('RGB')
-    img = img.resize((64, 64))
+    img = img.resize((200, 200))
     img_array = np.array(img).astype(np.float32).flatten()  # (64*64*3,)
 
 # Project the ideal flower onto the PCA space
@@ -45,7 +45,7 @@ print(f"  Ideal PC2 value: {ideal_pc2_value:.3f}")
 print(f"  Closest match PC2 value: {pc2_values[closest_idx]:.3f}")
 
 # Function to reshape flat RGB array to image
-def to_color_image(img_array, shape=(64, 64, 3)):
+def to_color_image(img_array, shape=(200, 200, 3)):
     img = img_array.reshape(shape)
     img = np.clip(img, 0, 255)
     return Image.fromarray(img.astype(np.uint8))
