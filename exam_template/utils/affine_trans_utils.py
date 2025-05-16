@@ -1,4 +1,8 @@
 import numpy as np
+from skimage import transform as tf
+from skimage.transform import warp
+
+
 
 def translation_matrix(dx, dy, dz):
     return np.array([
@@ -56,3 +60,26 @@ def affine_transformation(dx, dy, dz, alpha, beta, gamma, sx, sy, sz, sxy, sxz, 
     S = scaling_matrix(sx, sy, sz)
     Z = shear_matrix(sxy, sxz, syz)
     return T @ (Rx @ Ry @ Rz) @ Z @ S
+
+
+def landmark_transform(src_float_image,dst_float_image,src_landmarks: np.array,dst_landmarks: np.array):
+    tform = tf.estimate_transform('similarity', src_landmarks, dst_landmarks)
+    # Assuming `src_image` is the image you want to transform
+    # You may also want to specify output shape = destination image shape
+    
+
+    return warp(src_float_image, inverse_map=tform.inverse, output_shape=dst_float_image.shape),tform
+
+def compute_alignment_error(src_landmarks, dst_landmarks, tform):
+    # Convert to NumPy arrays if needed
+    src_landmarks = np.asarray(src_landmarks)
+    dst_landmarks = np.asarray(dst_landmarks)
+    
+    # Before registration: SSD between original points
+    F_before = np.sum((src_landmarks - dst_landmarks) ** 2)
+
+    # After registration: transform src landmarks to align with dst
+    transformed_src = tform(src_landmarks)
+    F_after = np.sum((transformed_src - dst_landmarks) ** 2)
+
+    return F_before, F_after
