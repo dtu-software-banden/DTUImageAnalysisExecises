@@ -26,3 +26,6 @@ def project_onto_pc2(x_normalized, eigenvectors, eigenvalues):
     idx = np.argsort(-np.abs(eigenvalues))
     first_pc = eigenvectors[:, idx[1]]
     return x_normalized @ first_pc
+
+def max_projected_abs_value(projections):
+    return np.abs(projections).max()
