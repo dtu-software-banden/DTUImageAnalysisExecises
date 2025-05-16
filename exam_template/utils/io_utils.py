@@ -11,3 +11,6 @@ def load_dicom(path):
 
 def load_rgb_and_resize(path, size):
     return np.array(Image.open(path).convert('RGB').resize(size))
+
+def load_hsv_image(path):
+    return np.array(Image.open(path).convert('HSV'))

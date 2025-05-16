@@ -1,3 +1,4 @@
+import cv2
 from skimage.morphology import closing, disk, label
 from skimage.measure import regionprops
 import numpy as np
@@ -23,3 +24,9 @@ def clean_and_filter(binary_image, radius=3, min_area=500):
         if region.area > min_area:
             mask[labeled == region.label] = True
     return mask
+
+
+def dialate_circle(binary_image, radius=8):
+    kernel_size = 2 * radius + 1
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (kernel_size, kernel_size))
+    return cv2.dilate(binary_image,kernel)
