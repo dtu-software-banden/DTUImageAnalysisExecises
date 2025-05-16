@@ -76,3 +76,5 @@ intersection = np.sum((final_mask == 1) & (ground_truth == 1))
 dice_score = 2 * intersection / (np.sum(final_mask) + np.sum(ground_truth))
 
 print(f"DICE score: {dice_score:.4f}")
+
+
