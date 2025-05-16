@@ -1,5 +1,5 @@
-import exam_template.utils.io_utils as io
-import exam_template.utils.plot_utils as pu
+import utils.io_utils as io
+import utils.plot_utils as pu
 import numpy as np
 import cv2
 

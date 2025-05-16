@@ -14,6 +14,15 @@ def segment_blobs(image, threshold=200, disk_radius=3, min_area=500):
             mask[labeled == region.label] = True
     return mask
 
+def filter(binary_image, min_area=500, max_area=np.inf, min_perim = 0, max_perim = np.inf):
+    labeled = label(binary_image)
+    mask = np.zeros_like(binary_image, dtype=bool)
+
+    for region in regionprops(labeled):
+        if max_area > region.area > min_area and max_perim > region.perimeter > min_perim:
+            mask[labeled == region.label] = True
+    return mask
+
 
 def clean_and_filter(binary_image, radius=3, min_area=500):
     cleaned = closing(binary_image, disk(radius))
@@ -30,3 +39,8 @@ def dialate_circle(binary_image, radius=8):
     kernel_size = 2 * radius + 1
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (kernel_size, kernel_size))
     return cv2.dilate(binary_image,kernel)
+
+def erode_circle(binary_image, radius=8):
+    kernel_size = 2 * radius + 1
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (kernel_size, kernel_size))
+    return cv2.erode(binary_image,kernel)

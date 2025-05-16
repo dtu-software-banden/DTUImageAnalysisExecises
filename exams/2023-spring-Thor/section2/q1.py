@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from exam_template.utils.pca_utils import compute_pca,normalize,max_projected_abs_value
+from utils.pca_utils import compute_pca,normalize,max_projected_abs_value
 
 # Load the CSV file
 # Assuming the file is named 'glass_data.csv' and uses whitespace as delimiter
