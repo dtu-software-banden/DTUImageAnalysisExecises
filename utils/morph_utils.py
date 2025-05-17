@@ -48,8 +48,11 @@ def clean_and_filter(binary_image, radius=3, min_area=500):
 
 
 def dice_score(mask1, mask2):
-    intersection = np.logical_and(mask1, mask2).sum()
-    return 2. * intersection / (mask1.sum() + mask2.sum())
+    boolmask1 = np.where(mask1 > 0,1,0)
+    boolmask2 = np.where(mask2 > 0,1,0)
+    intersection = np.logical_and(boolmask1, boolmask2).sum()
+    print("INTERSECTION:", intersection)
+    return 2. * intersection / (boolmask1.sum() + boolmask2.sum())
 
 
 def erode_circle(binary_image, radius=8):
@@ -57,12 +60,10 @@ def erode_circle(binary_image, radius=8):
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (kernel_size, kernel_size))
     return cv2.erode(binary_image,kernel)
 
-<<<<<<< HEAD
-def morph_closing(binary_image,radius=8):
-    return erode_circle(dialate_circle(binary_image,radius),radius)
-=======
 def dialate_circle(binary_image, radius=8):
     kernel_size = 2 * radius + 1
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (kernel_size, kernel_size))
     return cv2.dilate(binary_image,kernel)
->>>>>>> 56151be64f1208c0be53ca79e72c1b7a7b63106c
+
+def morph_closing(binary_image,radius=8):
+    return erode_circle(dialate_circle(binary_image,radius),radius)
