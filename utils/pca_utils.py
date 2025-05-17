@@ -1,5 +1,6 @@
 from sklearn.decomposition import PCA
 import numpy as np
+from sklearn.metrics import euclidean_distances
 
 def normalize(data):
     mean = np.mean(data, axis=0)
@@ -28,3 +29,8 @@ def project_onto_pc2(x_normalized, eigenvectors, eigenvalues):
 
 def max_projected_abs_value(projections):
     return np.abs(projections).max()
+
+def most_similair_index(pca,projections,new_item):
+    new_projection = pca.transform(new_item)
+    distances = euclidean_distances(projections, new_projection)
+    return np.argmin(distances)
