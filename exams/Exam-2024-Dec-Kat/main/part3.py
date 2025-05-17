@@ -43,7 +43,7 @@ plt.show()
 flat_images = image_stack.reshape(len(image_stack), -1)
 
 # Run PCA on flattened images
-pca, projections = compute_pca(flat_images)
+pca, projections = compute_pca(flat_images,7)
 
 def Question1():
     print("Running Question 1")
@@ -91,25 +91,34 @@ def Question3():
     print(f"Lowest PC1: screws_{min_index:03d}.jpg")
     print(f"Highest PC1: screws_{max_index:03d}.jpg")
 
-
 def Question4():
     print("Running Question 4")
-    from sklearn.metrics import euclidean_distances
-
-def Question4():
-    print("Running Question 4")
-
-    # Indices for screws_007.jpg and screws_008.jpg
-    idx1, idx2 = 7, 8
-
-    # Reshape to 2D for sklearn's function
-    pc1 = projections[idx1].reshape(1, -1)
-    pc2 = projections[idx2].reshape(1, -1)
-
     # Compute Euclidean distance
-    distance = euclidean_distances(pc1, pc2)[0, 0]
+    coords, distance = most_similair_indexs(projections)
 
-    print(f"Distance between screws_007.jpg and screws_008.jpg in PCA space: {distance:.2f}")
+    print(f"Distance between screws_007.jpg and screws_008.jpg in PCA space: {distance[7][8]}")
+
+import matplotlib.pyplot as plt
+
+def Question5():
+    print("Running Question 5")
+
+    # Get PC1 and PC2 values
+    pc1 = projections[:, 0]
+    pc2 = projections[:, 1]
+
+    # Plot all points
+    plt.figure(figsize=(8, 6))
+    plt.scatter(pc1, pc2, c='lightgray', label='All screws')
+    plt.scatter(pc1[7], pc2[7], c='red', label='screws_007.jpg', marker='X', s=100)
+
+    plt.xlabel("PC1")
+    plt.ylabel("PC2")
+    plt.title("Screw Images in PCA Space (PC1 vs PC2)")
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
 
 
 if __name__ == "__main__":
@@ -117,3 +126,5 @@ if __name__ == "__main__":
     Question2()
     Question3()
     Question4()
+    Question5()
+    #Question6()
