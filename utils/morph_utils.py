@@ -71,3 +71,6 @@ def dialate_circle(binary_image, radius=8):
 
 def morph_closing(binary_image,radius=8):
     return erode_circle(dialate_circle(binary_image,radius),radius)
+
+def morph_opening(binary_image,radius=8):
+    return dialate_circle(erode_circle(binary_image,radius),radius)

@@ -12,6 +12,12 @@ def compute_pca(data, n_components=5):
     projections = pca.fit_transform(data)
     return pca, projections
 
+def compute_dyn_pca(data):
+    pca = PCA()
+    projections = pca.fit_transform(data)
+    return pca, projections
+
+
 def synthesize_from_pc(average_img, component, lambda_, scale=3):
     return average_img + scale * np.sqrt(lambda_) * component
 
