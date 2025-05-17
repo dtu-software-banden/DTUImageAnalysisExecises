@@ -75,18 +75,6 @@ def Question1():
 
     print("B,C,D")
 
-
-
-def get_gaussian_discriminant_coeffs(mu1, var1, mu2, var2):
-    """
-    Compute coefficients A, B, C for the quadratic equation that defines the optimal threshold
-    between two Gaussian distributions with means mu1, mu2 and variances var1, var2.
-    """
-    A = 1 / var2 - 1 / var1
-    B = -2 * mu2 / var2 + 2 * mu1 / var1
-    C = (mu2**2 / var2) - (mu1**2 / var1) - np.log(var2 / var1)
-    return A, B, C
-
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA
 import numpy as np
 
@@ -96,16 +84,6 @@ def Question2():
     # Reload ROI D and E
     roi_d = np.loadtxt("data/dice/D_Cubes.txt")
     roi_e = np.loadtxt("data/dice/E_Cubes.txt")
-
-    # Compute class statistics
-    mu_d, var_d = np.mean(roi_d), np.var(roi_d)
-    mu_e, var_e = np.mean(roi_e), np.var(roi_e)
-
-    A, B, C = get_gaussian_discriminant_coeffs(mu_d, var_d, mu_e, var_e)
-    thresholds = np.roots([A, B, C])
-    print(thresholds)
-
-
 
     # Stack the samples from both ROIs
     X = np.concatenate([roi_d, roi_e]).reshape(-1, 1)
