@@ -44,3 +44,6 @@ def erode_circle(binary_image, radius=8):
     kernel_size = 2 * radius + 1
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (kernel_size, kernel_size))
     return cv2.erode(binary_image,kernel)
+
+def morph_closing(binary_image,radius=8):
+    return erode_circle(dialate_circle(binary_image,radius),radius)
