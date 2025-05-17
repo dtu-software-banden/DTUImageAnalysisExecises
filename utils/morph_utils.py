@@ -14,17 +14,21 @@ def segment_blobs(image, threshold=200, disk_radius=3, min_area=500):
             mask[labeled == region.label] = True
     return mask
 
-
-def segment_blobs_2_threshold(image, lower_threshold=0, upper_threshold = np.inf, disk_radius=3, min_area=500):
+# can take any argument you want
+def everything_blobs(image, lower_threshold=0, upper_threshold = np.inf, disk_radius=3, min_area=0, max_area=np.inf, min_perim = 0, max_perim = np.inf):
     binary = np.logical_and(image >= lower_threshold, image <= upper_threshold).astype(np.uint8)
-    closed = closing(binary, disk(disk_radius))
-    labeled = label(closed)
+    
+    labeled = label(binary)
 
     mask = np.zeros_like(image, dtype=bool)
     for region in regionprops(labeled):
-        if region.area > min_area:
+        if max_area > region.area > min_area and max_perim > region.perimeter > min_perim:
             mask[labeled == region.label] = True
-    return mask
+    closed = closing(mask, disk(disk_radius))
+    
+    return closed
+
+
 
 def filter(binary_image, min_area=500, max_area=np.inf, min_perim = 0, max_perim = np.inf):
     labeled = label(binary_image)
