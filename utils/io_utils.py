@@ -3,8 +3,19 @@ from PIL import Image
 import numpy as np
 import pydicom
 
+# use at you own volition
 def load_image(path, grayscale=False):
     return imread(path, as_gray=grayscale)
+
+def load_image_grayscale_255(path):
+    img = imread(path, as_gray=True) * 255
+    print(img.shape())
+    return img
+
+def load_image_RGB_255(path):
+    img = imread(path, as_gray=False)
+    print(img.shape())
+    return img
 
 def load_dicom(path):
     return pydicom.dcmread(path).pixel_array.astype(np.int16)
