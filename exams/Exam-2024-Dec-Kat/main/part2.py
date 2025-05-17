@@ -91,6 +91,7 @@ def Question3():
 
 def Question4():
     print("Running Question 4")
+    print("Option A")
 
 
 if __name__ == "__main__":
