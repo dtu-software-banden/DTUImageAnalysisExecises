@@ -14,6 +14,18 @@ def segment_blobs(image, threshold=200, disk_radius=3, min_area=500):
             mask[labeled == region.label] = True
     return mask
 
+
+def segment_blobs_2_threshold(image, lower_threshold=0, upper_threshold = np.inf, disk_radius=3, min_area=500):
+    binary = np.logical_and(image >= lower_threshold, image <= upper_threshold).astype(np.uint8)
+    closed = closing(binary, disk(disk_radius))
+    labeled = label(closed)
+
+    mask = np.zeros_like(image, dtype=bool)
+    for region in regionprops(labeled):
+        if region.area > min_area:
+            mask[labeled == region.label] = True
+    return mask
+
 def filter(binary_image, min_area=500, max_area=np.inf, min_perim = 0, max_perim = np.inf):
     labeled = label(binary_image)
     mask = np.zeros_like(binary_image, dtype=bool)
@@ -33,7 +45,6 @@ def clean_and_filter(binary_image, radius=3, min_area=500):
         if region.area > min_area:
             mask[labeled == region.label] = True
     return mask
-
 
 
 def dice_score(mask1, mask2):
