@@ -20,4 +20,6 @@ test_raw = test_df.drop(columns=["weather_type"])
 
 data,prediction = lda_predict_batch(test_raw,morning_model,afternoon_model,sigma)
 afternoon_pred = prediction[60:]
-print(np.where((afternoon_pred < 2),1,0).sum())
+print("Afternoon class as morning:",np.where((afternoon_pred < 2),1,0).sum())
+
+print("Morning rain count:",np.sum(df.iloc[:140,2]))

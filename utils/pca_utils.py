@@ -34,3 +34,11 @@ def most_similair_index(pca,projections,new_item):
     new_projection = pca.transform(new_item)
     distances = euclidean_distances(projections, new_projection)
     return np.argmin(distances)
+
+def most_similair_indexs(projections):
+    distances = euclidean_distances(projections)
+    # Ignore diagonal (self-distances)
+    np.fill_diagonal(distances, np.inf)
+
+    # Find the indices of the smallest distance
+    return np.unravel_index(np.argmin(distances), distances.shape),distances
