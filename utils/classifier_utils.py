@@ -2,6 +2,18 @@ from scipy.stats import norm
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 import numpy as np
 
+
+def threshold_min_dist_classification(values1, values2):
+    return (np.mean(values1) + np.mean(values2)) / 2 
+
+
+def parametric_classifier_predict(value, img):
+    mean, std = gaussian_parameters(img)
+    # Evaluate both Gaussians at value = 38
+    predict = norm.pdf(value, loc=mean, scale=std)
+    return predict
+
+
 def gaussian_parameters(pixels):
     return np.mean(pixels), np.std(pixels)
 

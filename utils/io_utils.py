@@ -2,6 +2,7 @@ from skimage.io import imread
 from PIL import Image
 import numpy as np
 import pydicom
+import cv2
 
 # use at you own volition
 def load_image(path, grayscale=False):
@@ -9,12 +10,14 @@ def load_image(path, grayscale=False):
 
 def load_image_grayscale_255(path):
     img = imread(path, as_gray=True) * 255
-    print(img.shape())
+    return img
+
+def load_image_grayscale_float(path):
+    img = imread(path, as_gray=True)
     return img
 
 def load_image_RGB_255(path):
     img = imread(path, as_gray=False)
-    print(img.shape())
     return img
 
 def load_dicom(path):

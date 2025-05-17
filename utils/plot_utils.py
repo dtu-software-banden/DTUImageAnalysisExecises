@@ -105,8 +105,6 @@ def rotation_matrix(pitch, roll, yaw, deg=False):
 
 import matplotlib.pyplot as plt
 
-import matplotlib.pyplot as plt
-
 def plot_pca_components(X_pca, labels=None, highlight_index=None):
     """
     Plots the first two principal components from PCA-transformed data.
