@@ -101,3 +101,38 @@ def rotation_matrix(pitch, roll, yaw, deg=False):
     R = np.dot(np.dot(R_x, R_y), R_z)
 
     return R
+
+
+import matplotlib.pyplot as plt
+
+import matplotlib.pyplot as plt
+
+def plot_pca_components(X_pca, labels=None, highlight_index=None):
+    """
+    Plots the first two principal components from PCA-transformed data.
+
+    Parameters:
+        X_pca (array-like): PCA-transformed data with shape (n_samples, n_components).
+        labels (array-like, optional): Optional labels for coloring the points.
+        highlight_index (int, optional): Index of a point to highlight specially.
+    """
+    plt.figure(figsize=(6, 5))
+
+    # Plot all points
+    if labels is not None:
+        scatter = plt.scatter(X_pca[:, 0], X_pca[:, 1], c=labels, cmap='viridis', edgecolor='k')
+    else:
+        scatter = plt.scatter(X_pca[:, 0], X_pca[:, 1], edgecolor='k', color='grey')
+
+    # Highlight a specific point if requested
+    if highlight_index is not None:
+        plt.scatter(X_pca[highlight_index, 0], X_pca[highlight_index, 1],
+                    color='red', edgecolor='black', s=120, marker='X', label='Highlighted')
+        plt.legend()
+
+    plt.xlabel('PC 1')
+    plt.ylabel('PC 2')
+    plt.title('First Two Principal Components')
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()

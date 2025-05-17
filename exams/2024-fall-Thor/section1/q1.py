@@ -1,4 +1,5 @@
 import numpy as np
+from utils.analysis_utils import hounsfield_of_dicom
 from utils.io_utils import load_dicom, load_image
 from utils.plot_utils import plot_image
 from utils.morph_utils import dice_score, filter,morph_closing
@@ -23,5 +24,17 @@ expert_image = img_as_ubyte(load_image("exams/2024-fall-Thor/section1/kidneys_gt
 # plot_image(expert_image)
 
 
+closed_mask = np.where((closed > 0),1,0)
+
 print("DICE: ",dice_score(expert_image,closed))
-area = closed.sum()
+ksum = closed_mask.sum()
+print("Kidney pixels:",ksum)
+
+masked_original = closed_mask * dicom_data
+# plot_image(masked_original)
+
+hu_values = dicom_data[closed_mask > 0]
+
+print(np.unique(hu_values))
+
+print("Hounsfield:",np.median(hu_values))
