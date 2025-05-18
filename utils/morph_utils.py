@@ -73,3 +73,10 @@ def morph_closing(binary_image,radius=8):
 
 def morph_opening(binary_image,radius=8):
     return dialate_circle(erode_circle(binary_image,radius),radius)
+
+
+def histogram_stretch(grayscale_floating_img,min=0.0,max=1.0):
+    v_min = np.min(grayscale_floating_img)
+    v_max = np.max(grayscale_floating_img)
+
+    return ((max - min) / (v_max - v_min)) * (grayscale_floating_img - v_min) + min
