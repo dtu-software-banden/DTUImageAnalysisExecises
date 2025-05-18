@@ -25,15 +25,16 @@ print("Diff:",sqDiff)
 
 neon_proj = projections[3,:]
 
-minval = 1000000000000
-minindex = 0
-for i in range(10):
+maxval = 0
+maxindex = 0
+for i in range(len(paths)):
     proj = projections[i,:]
     val = np.sum((neon_proj - proj)**2)
-    if i != 3 and val < minval:
-        minval = val
-        minindex = i
+    print(paths[i],":",val)
+    if i != 3 and val > maxval:
+        maxval = val
+        maxindex = i
     
-print(paths[minindex])
+print(paths[maxindex])
 
 # print("Least similair",coords)
