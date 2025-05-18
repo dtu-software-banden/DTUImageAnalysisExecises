@@ -203,7 +203,7 @@ def command_iteration(method):
     )
 
 
-def find_affine(fixed_image,moving_image,fast_mode=True,plot_progess=True,step_size=10.0):
+def find_affine(fixed_image,moving_image,fast_mode=True,plot_progess=True,step_size=5.0): # Stepsize 5 is very big. If the misaslignment is small 0.1 is usually chosen.
     # Set the registration - Fig. 1 from the Theory Note
     R = sitk.ImageRegistrationMethod()
 
