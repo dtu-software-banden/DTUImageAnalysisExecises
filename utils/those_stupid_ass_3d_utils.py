@@ -203,7 +203,7 @@ def command_iteration(method):
     )
 
 
-def find_affine(fixed_image,moving_image,fast_mode=True,plot_progess=True):
+def find_affine(fixed_image,moving_image,fast_mode=True,plot_progess=True,step_size=10.0):
     # Set the registration - Fig. 1 from the Theory Note
     R = sitk.ImageRegistrationMethod()
 
@@ -223,7 +223,7 @@ def find_affine(fixed_image,moving_image,fast_mode=True,plot_progess=True):
     R.SetMetricSamplingPercentage(0.50)
 
     # Set the optimizer [Optimization step]
-    R.SetOptimizerAsPowell(stepLength=10.0, numberOfIterations=100)
+    R.SetOptimizerAsPowell(stepLength=step_size, numberOfIterations=100)
 
     # Initialize the transformation type to rigid 
     initTransform = sitk.CenteredTransformInitializer(
