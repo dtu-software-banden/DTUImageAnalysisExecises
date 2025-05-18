@@ -41,6 +41,11 @@ def most_similair_index(pca,projections,new_item):
     distances = euclidean_distances(projections, new_projection)
     return np.argmin(distances)
 
+def least_similair_index(pca,projections,new_item):
+    new_projection = pca.transform(new_item)
+    distances = euclidean_distances(projections, new_projection)
+    return np.argmax(distances)
+
 def most_similair_indexs(projections):
     distances = euclidean_distances(projections)
     # Ignore diagonal (self-distances)
@@ -48,3 +53,14 @@ def most_similair_indexs(projections):
 
     # Find the indices of the smallest distance
     return np.unravel_index(np.argmin(distances), distances.shape),distances
+
+def count_needed_to_explain(pca, percent: float): #percent er float fra 0 til 1
+    ratios = pca.explained_variance_ratio_
+    sum = 0
+    for i in range(len(ratios)):
+        sum += ratios[i]
+        if sum >= percent:
+            return i + 1
+    
+    return len(ratios)
+
