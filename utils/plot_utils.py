@@ -5,6 +5,13 @@ import SimpleITK as sitk
 from skimage.util import img_as_ubyte
 
 
+def plot_blob_mask(mask):
+    plt.imshow(mask, cmap='nipy_spectral')
+    plt.title("Labeled BLOBs")
+    plt.axis("off")
+    plt.tight_layout()
+    plt.show()
+
 def plot_image(img, title='', cmap='gray'):
     plt.imshow(img, cmap=cmap)
     plt.title(title)
