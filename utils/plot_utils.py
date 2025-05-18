@@ -141,3 +141,61 @@ def plot_pca_components(X_pca, labels=None, highlight_index=None):
     plt.grid(True)
     plt.tight_layout()
     plt.show()
+
+def overlay_slices(sitkImage0, sitkImage1, origin = None, title=None):
+    """
+    Overlay the orthogonal views of a two 3D volume from the middle of the volume.
+    The two volumes must have the same shape. The first volume is displayed in red,
+    the second in green.
+
+    Parameters
+    ----------
+    sitkImage0 : SimpleITK image
+        Image to display in red.
+    sitkImage1 : SimpleITK image
+        Image to display in green.
+    origin : array_like, optional
+        Origin of the orthogonal views, represented by a point [x,y,z].
+        If None, the middle of the volume is used.
+    title : str, optional
+        Super title of the figure.
+
+    Note:
+    On the axial and coronal views, patient's left is on the right
+    On the sagittal view, patient's anterior is on the left    """
+    vol0 = sitk.GetArrayFromImage(sitkImage0)
+    vol1 = sitk.GetArrayFromImage(sitkImage1)
+
+    if vol0.shape != vol1.shape:
+        raise ValueError('The two volumes must have the same shape.')
+    if np.min(vol0) < 0 or np.min(vol1) < 0: # Remove negative values - Relevant for the noisy images
+        vol0[vol0 < 0] = 0
+        vol1[vol1 < 0] = 0
+    if origin is None:
+        origin = np.array(vol0.shape) // 2
+
+    sh = vol0.shape
+    # min_val = np.min([np.min(vol0), np.min(vol1)])
+    # max_val = np.max([np.max(vol0), np.max(vol1)])
+    R = img_as_ubyte(vol0/np.max(vol0))
+    G = img_as_ubyte(vol1/np.max(vol1))
+
+    vol_rgb = np.zeros(shape=(sh[0], sh[1], sh[2], 3), dtype=np.uint8)
+    vol_rgb[:, :, :, 0] = R
+    vol_rgb[:, :, :, 1] = G
+
+    fig, axes = plt.subplots(1, 3, figsize=(12, 4))
+
+    axes[0].imshow(vol_rgb[origin[0], ::-1, ::-1, :])
+    axes[0].set_title('Axial')
+
+    axes[1].imshow(vol_rgb[::-1, origin[1], ::-1, :])
+    axes[1].set_title('Coronal')
+
+    axes[2].imshow(vol_rgb[::-1, ::-1, origin[2], :])
+    axes[2].set_title('Sagittal')
+
+    [ax.set_axis_off() for ax in axes]
+
+    if title is not None:
+        fig.suptitle(title, fontsize=16)

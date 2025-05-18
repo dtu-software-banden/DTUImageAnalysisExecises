@@ -41,3 +41,28 @@ def linear_transformation(img,min_value,max_value):
     max_val = img.max()
     scaled = min_value + ((img - min_val) * (max_value - min_value) / (max_val - min_val))
     return scaled
+
+
+
+
+def compute_optimal_path(acc):
+    rows, cols = acc.shape
+    path = []
+
+    # Start at the minimum value in the bottom row
+    j = np.argmin(acc[-1])
+    path.append((rows - 1, j))
+
+    for i in reversed(range(rows - 1)):
+        candidates = []
+        for dj in [-1, 0, 1]:
+            nj = j + dj
+            if 0 <= nj < cols:
+                candidates.append((acc[i, nj], nj))
+
+        min_val, j = min(candidates)
+        path.append((i, j))
+
+    # Reverse the path to go from top to bottom if needed
+    path.reverse()
+    return path

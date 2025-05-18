@@ -67,17 +67,18 @@ def Question1():
 
 def Question2():
     print("Running Question 2")
-    plot_blob_mask(filtered_mask)
+    plot_blob_mask(opened)
     print("5")
 
 
 def Question3():
     print("Running Question 3")
-    dice_score(filtered_mask,ground_truth)
+    print(dice_score(filtered_mask,ground_truth))
 
 
 def Question4():
     print("Running Question 4")
+    print(threshold_min_dist_classification(hu_image[myocardium_roi],hu_image[blood_roi]))
 
 
 if __name__ == "__main__":
