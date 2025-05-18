@@ -73,7 +73,7 @@ def Question4():
     mask = (mask > 0)
 
     # Compute median HU
-    median_hu = np.median(image_hu[mask])
+    median_hu = np.median(image_hu[closed_mask])
     print("Median HU:", median_hu)
 
 if __name__ == "__main__":
