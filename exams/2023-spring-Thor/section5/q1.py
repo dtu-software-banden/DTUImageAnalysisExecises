@@ -1,8 +1,7 @@
 import numpy as np
 from utils.io_utils import load_image
-from skimage.util import img_as_float,img_as_ubyte
+from skimage.util import img_as_ubyte
 from utils.affine_trans_utils import landmark_transform,compute_alignment_error
-from utils.plot_utils import plot_image
 
 shoe1 = load_image("exams/2023-spring-Thor/section5/shoe_1.png")
 shoe2 = load_image("exams/2023-spring-Thor/section5/shoe_2.png")

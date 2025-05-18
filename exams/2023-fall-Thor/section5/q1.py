@@ -24,3 +24,4 @@ print("PCA count:",count_needed_to_explain(pca,0.97))
 cov_matrix = np.cov(normDf, rowvar=False)
 
 print("Max abs:",np.max(np.abs(cov_matrix)))
+
