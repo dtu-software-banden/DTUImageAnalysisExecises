@@ -55,7 +55,6 @@ def dice_score(mask1, mask2):
     boolmask1 = np.where(mask1 > 0,1,0)
     boolmask2 = np.where(mask2 > 0,1,0)
     intersection = np.logical_and(boolmask1, boolmask2).sum()
-    print("INTERSECTION:", intersection)
     return 2. * intersection / (boolmask1.sum() + boolmask2.sum())
 
 

@@ -28,3 +28,10 @@ def load_rgb_and_resize(path, size):
 
 def load_hsv_image(path):
     return np.array(Image.open(path).convert('HSV'))
+
+from skimage.color import rgb2hsv
+def load_hsv_from_rgb(path):
+    img_rgb = imread(path)
+    if img_rgb.shape[-1] == 4:
+        img_rgb = img_rgb[:, :, :3]
+    return rgb2hsv(img_rgb)
