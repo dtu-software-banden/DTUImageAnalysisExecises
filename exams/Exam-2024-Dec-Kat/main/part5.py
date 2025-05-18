@@ -100,7 +100,7 @@ def Question4():
 
 
 if __name__ == "__main__":
-    #Question1()
+    Question1()
     Question2()
     Question3()
     Question4()
