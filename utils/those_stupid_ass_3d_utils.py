@@ -258,11 +258,8 @@ def find_affine(fixed_image,moving_image,fast_mode=True,plot_progess=True,step_s
 
     trans = params[3:]
     rot = np.array(params[:3]) * (180 / 3.14)
-    temp = rot[1]
-    rot[1] = rot[2]
-    rot[2] = temp
     
-    overlay_slices(fixed_image, updated_image, title = 'ImgT1 (red) vs. ImgT1_A (green)')
+    # overlay_slices(fixed_image, updated_image, title = 'ImgT1 (red) vs. ImgT1_A (green)')
     
 
 
