@@ -292,3 +292,14 @@ def rotation_matrix(pitch, roll, yaw, deg=False):
     R = np.dot(np.dot(R_x, R_y), R_z)
 
     return R
+
+def apply_transform(img, affine_transform):
+    # Create a resampler
+    resampler = sitk.ResampleImageFilter()
+    resampler.SetReferenceImage(img)  # Match size, spacing, direction, origin
+    resampler.SetInterpolator(sitk.sitkLinear)  # or sitkNearestNeighbor for labels
+    resampler.SetTransform(affine_transform)
+    resampler.SetDefaultPixelValue(0)  # Value for areas outside original image
+
+    # Perform resampling
+    return resampler.Execute(img)
