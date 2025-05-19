@@ -293,13 +293,22 @@ def rotation_matrix(pitch, roll, yaw, deg=False):
 
     return R
 
-def apply_transform(img, affine_transform):
+def apply_transform(img, affine_transform,rotate_center=True):
+    updated_transform = affine_transform
+    if rotate_center:
+        center = img.TransformContinuousIndexToPhysicalPoint([
+            sz/2.0 for sz in img.GetSize()
+        ])
+        updated_transform.SetCenter(center)
+
     # Create a resampler
     resampler = sitk.ResampleImageFilter()
     resampler.SetReferenceImage(img)  # Match size, spacing, direction, origin
     resampler.SetInterpolator(sitk.sitkLinear)  # or sitkNearestNeighbor for labels
-    resampler.SetTransform(affine_transform)
+    resampler.SetTransform(updated_transform)
     resampler.SetDefaultPixelValue(0)  # Value for areas outside original image
+
+    
 
     # Perform resampling
     return resampler.Execute(img)

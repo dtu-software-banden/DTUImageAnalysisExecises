@@ -25,8 +25,8 @@ affine_transform = sitk.AffineTransform(3)  # 3D transform
 affine_transform.SetMatrix(rotation)
 affine_transform.SetTranslation(translation)
 
-img = sitk.ReadImage("exams/2023-fall-Thor/section2/ImgT1_v1.nii.gz")
+img = sitk.ReadImage("exams/2023-fall-Thor/section2/ImgT1_v2.nii.gz")
 
 rotated_img = apply_transform(img,affine_transform)
 
-imshow_orthogonal_view(rotated_img)
+imshow_orthogonal_view(rotated_img,origin=None)
