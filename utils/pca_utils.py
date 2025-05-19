@@ -7,6 +7,11 @@ def normalize(data):
     range_ = np.ptp(data, axis=0)
     return (data - mean) / range_
 
+def normalize_std(data):
+    mean = np.mean(data, axis=0)
+    std = np.std(data, axis=0)
+    return (data - mean) / std
+
 def compute_pca(data, n_components=5):
     pca = PCA(n_components=n_components)
     projections = pca.fit_transform(data)
