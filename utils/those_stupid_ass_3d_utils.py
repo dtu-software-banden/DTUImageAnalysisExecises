@@ -288,7 +288,9 @@ def rotation_matrix(pitch, roll, yaw, deg=False):
 
     R = np.dot(np.dot(R_x, R_y), R_z)
 
-    return R
+    useable = R[:3,:3].T.flatten()
+
+    return R,useable
 
 def apply_transform(img, affine_transform,rotate_center=True):
     updated_transform = affine_transform
