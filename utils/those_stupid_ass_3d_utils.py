@@ -267,3 +267,28 @@ def find_affine(fixed_image,moving_image,fast_mode=True,plot_progess=True,step_s
 
 
     return trans, rot, updated_image
+
+def rotation_matrix(pitch, roll, yaw, deg=False):
+    if deg:
+        roll = np.deg2rad(roll)
+        pitch = np.deg2rad(pitch)
+        yaw = np.deg2rad(yaw)
+
+    R_x = np.array([[1, 0, 0, 0],
+                    [0, np.cos(pitch), -np.sin(pitch), 0],
+                    [0, np.sin(pitch), np.cos(pitch), 0],
+                    [0, 0, 0, 1]])
+
+    R_y = np.array([[np.cos(roll), 0, np.sin(roll), 0],
+                    [0, 1, 0, 0],
+                    [-np.sin(roll), 0, np.cos(roll), 0],
+                    [0, 0, 0, 1]])
+
+    R_z = np.array([[np.cos(yaw), -np.sin(yaw), 0, 0],
+                    [np.sin(yaw), np.cos(yaw), 0, 0],
+                    [0, 0, 1, 0],
+                    [0, 0, 0, 1]])
+
+    R = np.dot(np.dot(R_x, R_y), R_z)
+
+    return R
