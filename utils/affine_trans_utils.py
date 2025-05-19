@@ -1,7 +1,8 @@
 import numpy as np
 from skimage import transform as tf
 from skimage.transform import warp
-
+import numpy as np
+from scipy.ndimage import map_coordinates
 
 
 def translation_matrix(dx, dy, dz):
@@ -83,3 +84,21 @@ def compute_alignment_error(src_landmarks, dst_landmarks, tform):
     F_after = np.sum((transformed_src - dst_landmarks) ** 2)
 
     return F_before, F_after
+
+
+def apply_affine_to_image_np(image_np, A):
+    # Get image shape
+    z, y, x = image_np.shape
+
+    # Create a grid of coordinates
+    zz, yy, xx = np.meshgrid(np.arange(z), np.arange(y), np.arange(x), indexing='ij')
+    coords = np.stack([xx.ravel(), yy.ravel(), zz.ravel(), np.ones_like(xx.ravel())], axis=0)  # shape (4, N)
+
+    # Apply inverse of A (because we're pulling values from input to output)
+    A_inv = np.linalg.inv(A)
+    new_coords = A_inv @ coords
+    x_new, y_new, z_new = new_coords[:3]
+
+    # Interpolate using map_coordinates
+    warped = map_coordinates(image_np, [z_new, y_new, x_new], order=1, mode='constant', cval=0.0)
+    return warped.reshape(image_np.shape)
